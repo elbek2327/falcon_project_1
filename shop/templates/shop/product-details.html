@@ -1751,11 +1751,16 @@
                     </div>
                   </div>
                 </div>
+
+                  <!--Product-->
+                  {% for product in products %}
                 <div class="col-lg-6">
-                  <h5>Apple MacBook Pro (15" Retina, Touch Bar, 2.2GHz 6-Core Intel Core i7, 16GB RAM, 256GB SSD) - Space Gray (Latest Model)</h5><a class="fs--1 mb-2 d-block" href="#!">Computer &amp; Accessories</a>
+                  <h5>{{ product.name }}</h5><a class="fs--1 mb-2 d-block" href="#!">Computer &amp; Accessories</a>
                   <div class="fs--2 mb-3 d-inline-block text-decoration-none"><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star text-warning"></span><span class="fa fa-star-half-alt text-warning star-icon"></span><span class="ms-1 text-600">(8)</span>
                   </div>
-                  <p class="fs--1">Testing conducted by Apple in October 2018 using pre-production 2.9GHz 6‑core Intel Core i9‑based 15-inch MacBook Pro systems with Radeon Pro Vega 20 graphics, and shipping 2.9GHz 6‑core Intel Core i9‑based 15‑inch MacBook Pro systems with Radeon Pro 560X graphics, both configured with 32GB of RAM and 4TB SSD.</p>
+
+                    <!--Description-->
+                  <p class="fs--1">{{ product.description }}</p>
                   <h4 class="d-flex align-items-center"><span class="text-warning me-2">$1200</span><span class="me-1 fs--1 text-500">
                       <del class="me-1">$2400</del><strong>-50%</strong></span></h4>
                   <p class="fs--1 mb-1"> <span>Shipping Cost: </span><strong>$50</strong></p>
@@ -1774,6 +1779,9 @@
                   </div>
                 </div>
               </div>
+                {% endfor %}
+
+
               <div class="row">
                 <div class="col-12">
                   <div class="overflow-hidden mt-4">

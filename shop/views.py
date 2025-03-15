@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from shop.models import Category, Product
+from django.shortcuts import render, get_object_or_404
+from shop.models import Category, Product, Images
 # Create your views here.
 
 def index(request):
@@ -13,11 +13,31 @@ def index(request):
 
 
 
-def product_details(request):
-    return  render(request, 'shop/product-details.html')
+def product_details(request, product_id:int | None = None):
+    product = Product.objects.get(id=product_id)
 
-def product_list(request):
-    return render(request, 'shop/product-list.html')
+    context = {
+        'product': product,
+    }
 
+    return  render(request, 'shop/product-details.html', context)
 
+def product_list(request, category_id :int | None = None):
+    categories = Category.objects.all()
 
+    if category_id:
+        products = Product.objects.filter(category_id=category_id)
+    else:
+        products = Product.objects.all()
+
+    return render(request, 'shop/product-list.html', context={'products': products, 'categories': categories})
+
+def product_images(request, product_id:int | None = None):
+    product = get_object_or_404(Product, id=product_id)
+    images = Images.objects.filter(product=product)
+
+    context = {
+        'product': product,
+        'images': images,
+    }
+    return render(request, 'shop/product-list.html', context)
