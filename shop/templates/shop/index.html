@@ -1,6 +1,7 @@
 {% extends 'shop/base/base.html' %}
 
 {% load  static %}
+{% load price_filters %}
 
 {% block title %} Homepage
 {% endblock %}
@@ -206,7 +207,7 @@
                                     </a>
                                         <!-- more inner pages-->
                                         <ul class="nav collapse false" id="product">
-                                            <li class="nav-item"><a class="nav-link" href="{% url 'product_list' %}"
+                                            <li class="nav-item"><a class="nav-link" href="{% url 'product_list_html' %}"
                                                                     aria-expanded="false">
                                                 <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Product list</span>
                                                 </div>
@@ -221,7 +222,7 @@
                                             </a>
                                                 <!-- more inner pages-->
                                             </li>
-                                            <li class="nav-item"><a class="nav-link" href="{% url 'product_details' %}"
+                                            <li class="nav-item"><a class="nav-link" href="{% url 'product_details_html' %}"
                                                                     aria-expanded="false">
                                                 <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Product details</span>
                                                 </div>
@@ -2095,9 +2096,10 @@
                                                  alt="{{ category.title }}">
                                         </a>
                                         <h6 class="mb-1">
-                                            <h6 href="{% url 'product_of_category' category.id %}">
+                                            <h6 href="{% url 'product_list' category_id=category.id %}">
 
-                                                    <a href="{% url 'product_list' %}">{{ category.title }}</a>
+                                                <a href="{% url 'product_list' category_id=category.id %}">{{ category.title }}</a>
+
 
                                             </h6>
                                         </h6>
@@ -2108,280 +2110,178 @@
                         </div>
                     </div>
 
-
+{% for product in products %}
                     <div class="card mb-3">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-6 mb-3 col-md-6 col-lg-4">
                                     <div class="border rounded-1 d-flex flex-column justify-content-between pb-3">
                                         <div class="overflow-hidden">
-                                            <div class="position-relative rounded-top overflow-hidden"><a
-                                                    class="d-block" href="{% url 'product_details' %}"><img
-                                                    class="img-fluid rounded-top"
-                                                    src="{% static 'shop/./assets' %}/img/products/2.jpg" alt=""></a>
-                                            </div>
-                                            <div class="p-2">
-                                                <h5 class="fs-0"><a class="text-dark"
-                                                                    href="{% url 'product_details' %}">Apple iMac
-                                                    Pro </a></h5>
-                                                <p class="fs--1 mb-2"><a class="text-500" href="#!">Computer &amp;
-                                                    Accessories</a></p>
-                                                <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-2">
-                                                    150 000 so'm
-                                                    <!-- <del class="ms-2 fs--1 text-500">180 000 so'm </del> -->
-                                                </h5>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-between-center px-3">
+                                            <div class="modal-dialog-centered">
 
-                                            <div><a class="btn btn-sm btn-falcon-default" style="width: 130px;"
-                                                    href="#!" data-bs-toggle="tooltip" data-bs-placement="top" title=""
-                                                    data-bs-original-title="Add to Cart" aria-label="Add to Cart">
-                                                <svg class="svg-inline--fa fa-cart-plus fa-w-18" aria-hidden="true"
-                                                     focusable="false" data-prefix="fas" data-icon="cart-plus"
-                                                     role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
-                                                     data-fa-i2svg="">
-                                                    <path fill="currentColor"
-                                                          d="M504.717 320H211.572l6.545 32h268.418c15.401 0 26.816 14.301 23.403 29.319l-5.517 24.276C523.112 414.668 536 433.828 536 456c0 31.202-25.519 56.444-56.824 55.994-29.823-.429-54.35-24.631-55.155-54.447-.44-16.287 6.085-31.049 16.803-41.548H231.176C241.553 426.165 248 440.326 248 456c0 31.813-26.528 57.431-58.67 55.938-28.54-1.325-51.751-24.385-53.251-52.917-1.158-22.034 10.436-41.455 28.051-51.586L93.883 64H24C10.745 64 0 53.255 0 40V24C0 10.745 10.745 0 24 0h102.529c11.401 0 21.228 8.021 23.513 19.19L159.208 64H551.99c15.401 0 26.816 14.301 23.403 29.319l-47.273 208C525.637 312.246 515.923 320 504.717 320zM408 168h-48v-40c0-8.837-7.163-16-16-16h-16c-8.837 0-16 7.163-16 16v40h-48c-8.837 0-16 7.163-16 16v16c0 8.837 7.163 16 16 16h48v40c0 8.837 7.163 16 16 16h16c8.837 0 16-7.163 16-16v-40h48c8.837 0 16-7.163 16-16v-16c0-8.837-7.163-16-16-16z"></path>
-                                                </svg>
-                                                <!-- <span class="fas fa-cart-plus"></span> Font Awesome fontawesome.com -->
-                                            </a></div>
-                                        </div>
+
+                                                    {% if product.images.first %}
+                                                        <img class="img-fluid fit-cover w-sm-100 h-sm-100 rounded-1 absolute-sm-centered"
+                                                             src="{{ product.images.first.image.url }}"
+                                                             alt="{{ product.name }}"/>
+                                                    {% else %}
+                                                        <img class="img-fluid fit-cover w-sm-100 h-sm-100 rounded-1 absolute-sm-centered"
+                                                             src="{% static 'shop/assets/img/products/3.jpg' %}"
+                                                             alt="No Image"/>
+                                                    {% endif %}
+
+                                            </div>
+
+                                                <div class="p-2">
+                                                    <h5 class="fs-0"><a class="text-dark"
+                                                                        href="{% url 'product_details' product_id=product.id %}">{{ product.name }} </a>
+                                                    </h5>
+                                                    <p class="fs--1 mb-2"><a class="text-500"
+                                                                             href="#!">{{ product.category }}</a></p>
+                                                    <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-2">{{ product.price|format_price }}
+                                                        so'm
+                                                        <!-- <del class="ms-2 fs--1 text-500">180 000 so'm </del> -->
+                                                    </h5>
+                                                    </p>
+                                                </div>
+                                                </div>
+                                                </div>
+                                            {% endfor %}
+                                    <div class="d-flex flex-between-center px-3">
+                                        <!--badge korzinka-->
+                                        <div><a class="btn btn-sm btn-falcon-default" style="width: 130px;"
+                                                href="#!" data-bs-toggle="tooltip" data-bs-placement="top" title=""
+                                                data-bs-original-title="Add to Cart" aria-label="Add to Cart">
+                                            <svg class="svg-inline--fa fa-cart-plus fa-w-18" aria-hidden="true"
+                                                 focusable="false" data-prefix="fas" data-icon="cart-plus"
+                                                 role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
+                                                 data-fa-i2svg="">
+                                                <path fill="currentColor"
+                                                      d="M504.717 320H211.572l6.545 32h268.418c15.401 0 26.816 14.301 23.403 29.319l-5.517 24.276C523.112 414.668 536 433.828 536 456c0 31.202-25.519 56.444-56.824 55.994-29.823-.429-54.35-24.631-55.155-54.447-.44-16.287 6.085-31.049 16.803-41.548H231.176C241.553 426.165 248 440.326 248 456c0 31.813-26.528 57.431-58.67 55.938-28.54-1.325-51.751-24.385-53.251-52.917-1.158-22.034 10.436-41.455 28.051-51.586L93.883 64H24C10.745 64 0 53.255 0 40V24C0 10.745 10.745 0 24 0h102.529c11.401 0 21.228 8.021 23.513 19.19L159.208 64H551.99c15.401 0 26.816 14.301 23.403 29.319l-47.273 208C525.637 312.246 515.923 320 504.717 320zM408 168h-48v-40c0-8.837-7.163-16-16-16h-16c-8.837 0-16 7.163-16 16v40h-48c-8.837 0-16 7.163-16 16v16c0 8.837 7.163 16 16 16h48v40c0 8.837 7.163 16 16 16h16c8.837 0 16-7.163 16-16v-40h48c8.837 0 16-7.163 16-16v-16c0-8.837-7.163-16-16-16z"></path>
+                                            </svg>
+                                            <!-- <span class="fas fa-cart-plus"></span> Font Awesome fontawesome.com -->
+                                        </a></div>
                                     </div>
                                 </div>
-                                <div class="col-6 mb-3 col-md-6 col-lg-4">
-                                    <div class="border rounded-1 d-flex flex-column justify-content-between pb-3">
-                                        <div class="overflow-hidden">
-                                            <div class="position-relative rounded-top overflow-hidden"><a
-                                                    class="d-block" href="{% url 'product_details' %}"><img
-                                                    class="img-fluid rounded-top"
-                                                    src="{% static 'shop/./assets' %}/img/products/2.jpg" alt=""></a>
-                                            </div>
-                                            <div class="p-2">
-                                                <h5 class="fs-0"><a class="text-dark"
-                                                                    href="{% url 'product_details' %}">Apple iMac
-                                                    Pro </a></h5>
-                                                <p class="fs--1 mb-2"><a class="text-500" href="#!">Computer &amp;
-                                                    Accessories</a></p>
-                                                <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-2">
-                                                    150 000 so'm
-                                                    <!-- <del class="ms-2 fs--1 text-500">180 000 so'm </del> -->
-                                                </h5>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-between-center px-3">
-
-                                            <div><a class="btn btn-sm btn-falcon-default" style="width: 130px;"
-                                                    href="#!" data-bs-toggle="tooltip" data-bs-placement="top" title=""
-                                                    data-bs-original-title="Add to Cart" aria-label="Add to Cart">
-                                                <svg class="svg-inline--fa fa-cart-plus fa-w-18" aria-hidden="true"
-                                                     focusable="false" data-prefix="fas" data-icon="cart-plus"
-                                                     role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
-                                                     data-fa-i2svg="">
-                                                    <path fill="currentColor"
-                                                          d="M504.717 320H211.572l6.545 32h268.418c15.401 0 26.816 14.301 23.403 29.319l-5.517 24.276C523.112 414.668 536 433.828 536 456c0 31.202-25.519 56.444-56.824 55.994-29.823-.429-54.35-24.631-55.155-54.447-.44-16.287 6.085-31.049 16.803-41.548H231.176C241.553 426.165 248 440.326 248 456c0 31.813-26.528 57.431-58.67 55.938-28.54-1.325-51.751-24.385-53.251-52.917-1.158-22.034 10.436-41.455 28.051-51.586L93.883 64H24C10.745 64 0 53.255 0 40V24C0 10.745 10.745 0 24 0h102.529c11.401 0 21.228 8.021 23.513 19.19L159.208 64H551.99c15.401 0 26.816 14.301 23.403 29.319l-47.273 208C525.637 312.246 515.923 320 504.717 320zM408 168h-48v-40c0-8.837-7.163-16-16-16h-16c-8.837 0-16 7.163-16 16v40h-48c-8.837 0-16 7.163-16 16v16c0 8.837 7.163 16 16 16h48v40c0 8.837 7.163 16 16 16h16c8.837 0 16-7.163 16-16v-40h48c8.837 0 16-7.163 16-16v-16c0-8.837-7.163-16-16-16z"></path>
-                                                </svg>
-                                                <!-- <span class="fas fa-cart-plus"></span> Font Awesome fontawesome.com -->
-                                            </a></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 mb-3 col-md-6 col-lg-4">
-                                    <div class="border rounded-1 d-flex flex-column justify-content-between pb-3">
-                                        <div class="overflow-hidden">
-                                            <div class="position-relative rounded-top overflow-hidden"><a
-                                                    class="d-block" href="{% url 'product_details' %}"><img
-                                                    class="img-fluid rounded-top"
-                                                    src="{% static 'shop/./assets' %}/img/products/2.jpg" alt=""></a>
-                                            </div>
-                                            <div class="p-2">
-                                                <h5 class="fs-0"><a class="text-dark"
-                                                                    href="{% url 'product_details' %}">Apple iMac
-                                                    Pro </a></h5>
-                                                <p class="fs--1 mb-2"><a class="text-500" href="#!">Computer &amp;
-                                                    Accessories</a></p>
-                                                <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-2">
-                                                    150 000 so'm
-                                                    <!-- <del class="ms-2 fs--1 text-500">180 000 so'm </del> -->
-                                                </h5>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-between-center px-3">
-
-                                            <div><a class="btn btn-sm btn-falcon-default" style="width: 130px;"
-                                                    href="#!" data-bs-toggle="tooltip" data-bs-placement="top" title=""
-                                                    data-bs-original-title="Add to Cart" aria-label="Add to Cart">
-                                                <svg class="svg-inline--fa fa-cart-plus fa-w-18" aria-hidden="true"
-                                                     focusable="false" data-prefix="fas" data-icon="cart-plus"
-                                                     role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
-                                                     data-fa-i2svg="">
-                                                    <path fill="currentColor"
-                                                          d="M504.717 320H211.572l6.545 32h268.418c15.401 0 26.816 14.301 23.403 29.319l-5.517 24.276C523.112 414.668 536 433.828 536 456c0 31.202-25.519 56.444-56.824 55.994-29.823-.429-54.35-24.631-55.155-54.447-.44-16.287 6.085-31.049 16.803-41.548H231.176C241.553 426.165 248 440.326 248 456c0 31.813-26.528 57.431-58.67 55.938-28.54-1.325-51.751-24.385-53.251-52.917-1.158-22.034 10.436-41.455 28.051-51.586L93.883 64H24C10.745 64 0 53.255 0 40V24C0 10.745 10.745 0 24 0h102.529c11.401 0 21.228 8.021 23.513 19.19L159.208 64H551.99c15.401 0 26.816 14.301 23.403 29.319l-47.273 208C525.637 312.246 515.923 320 504.717 320zM408 168h-48v-40c0-8.837-7.163-16-16-16h-16c-8.837 0-16 7.163-16 16v40h-48c-8.837 0-16 7.163-16 16v16c0 8.837 7.163 16 16 16h48v40c0 8.837 7.163 16 16 16h16c8.837 0 16-7.163 16-16v-40h48c8.837 0 16-7.163 16-16v-16c0-8.837-7.163-16-16-16z"></path>
-                                                </svg>
-                                                <!-- <span class="fas fa-cart-plus"></span> Font Awesome fontawesome.com -->
-                                            </a></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-6 mb-3 col-md-6 col-lg-4">
-                                    <div class="border rounded-1 d-flex flex-column justify-content-between pb-3">
-                                        <div class="overflow-hidden">
-                                            <div class="position-relative rounded-top overflow-hidden"><a
-                                                    class="d-block" href="{% url 'product_details' %}"><img
-                                                    class="img-fluid rounded-top"
-                                                    src="{% static 'shop/./assets' %}/img/products/2.jpg" alt=""></a>
-                                            </div>
-                                            <div class="p-2">
-                                                <h5 class="fs-0"><a class="text-dark"
-                                                                    href="{% url 'product_details' %}">Apple iMac
-                                                    Pro </a></h5>
-                                                <p class="fs--1 mb-2"><a class="text-500" href="#!">Computer &amp;
-                                                    Accessories</a></p>
-                                                <h5 class="fs-md-2 text-warning mb-0 d-flex align-items-center mb-2">
-                                                    150 000 so'm
-                                                    <!-- <del class="ms-2 fs--1 text-500">180 000 so'm </del> -->
-                                                </h5>
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-between-center px-3">
-
-                                            <div><a class="btn btn-sm btn-falcon-default" style="width: 130px;"
-                                                    href="#!" data-bs-toggle="tooltip" data-bs-placement="top" title=""
-                                                    data-bs-original-title="Add to Cart" aria-label="Add to Cart">
-                                                <svg class="svg-inline--fa fa-cart-plus fa-w-18" aria-hidden="true"
-                                                     focusable="false" data-prefix="fas" data-icon="cart-plus"
-                                                     role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"
-                                                     data-fa-i2svg="">
-                                                    <path fill="currentColor"
-                                                          d="M504.717 320H211.572l6.545 32h268.418c15.401 0 26.816 14.301 23.403 29.319l-5.517 24.276C523.112 414.668 536 433.828 536 456c0 31.202-25.519 56.444-56.824 55.994-29.823-.429-54.35-24.631-55.155-54.447-.44-16.287 6.085-31.049 16.803-41.548H231.176C241.553 426.165 248 440.326 248 456c0 31.813-26.528 57.431-58.67 55.938-28.54-1.325-51.751-24.385-53.251-52.917-1.158-22.034 10.436-41.455 28.051-51.586L93.883 64H24C10.745 64 0 53.255 0 40V24C0 10.745 10.745 0 24 0h102.529c11.401 0 21.228 8.021 23.513 19.19L159.208 64H551.99c15.401 0 26.816 14.301 23.403 29.319l-47.273 208C525.637 312.246 515.923 320 504.717 320zM408 168h-48v-40c0-8.837-7.163-16-16-16h-16c-8.837 0-16 7.163-16 16v40h-48c-8.837 0-16 7.163-16 16v16c0 8.837 7.163 16 16 16h48v40c0 8.837 7.163 16 16 16h16c8.837 0 16-7.163 16-16v-40h48c8.837 0 16-7.163 16-16v-16c0-8.837-7.163-16-16-16z"></path>
-                                                </svg>
-                                                <!-- <span class="fas fa-cart-plus"></span> Font Awesome fontawesome.com -->
-                                            </a></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-
                             </div>
-                        </div>
-                        <div class="card-footer bg-light d-flex justify-content-center">
-                            <div>
-                                <button class="btn btn-falcon-default btn-sm me-2" type="button" disabled="disabled"
-                                        data-bs-toggle="tooltip" data-bs-placement="top" title=""
-                                        data-bs-original-title="Prev" aria-label="Prev">
-                                    <svg class="svg-inline--fa fa-chevron-left fa-w-10" aria-hidden="true"
-                                         focusable="false" data-prefix="fas" data-icon="chevron-left" role="img"
-                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                        <path fill="currentColor"
-                                              d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z"></path>
-                                    </svg>
-                                    <!-- <span class="fas fa-chevron-left"></span> Font Awesome fontawesome.com -->
-                                </button>
-                                <a class="btn btn-sm btn-falcon-default text-primary me-2" href="#!">1</a><a
-                                    class="btn btn-sm btn-falcon-default me-2" href="#!">2</a><a
-                                    class="btn btn-sm btn-falcon-default me-2" href="#!">
-                                <svg class="svg-inline--fa fa-ellipsis-h fa-w-16" aria-hidden="true" focusable="false"
-                                     data-prefix="fas" data-icon="ellipsis-h" role="img"
-                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                    <path fill="currentColor"
-                                          d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"></path>
-                                </svg>
-                            </a><a class="btn btn-sm btn-falcon-default me-2" href="#!">35</a>
-                                <button class="btn btn-falcon-default btn-sm" type="button" data-bs-toggle="tooltip"
-                                        data-bs-placement="top" title="" data-bs-original-title="Next">
-                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10" aria-hidden="true"
-                                         focusable="false" data-prefix="fas" data-icon="chevron-right" role="img"
-                                         xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                        <path fill="currentColor"
-                                              d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                    </svg>
-                                </button>
-                            </div>
+
+
                         </div>
                     </div>
-
-                    <footer class="footer">
-                        <div class="row g-0 justify-content-between fs--1 mt-4 mb-3">
-                            <div class="col-12 col-sm-auto text-center">
-                                <p class="mb-0 text-600">Разработка сайтов - Sayt.uz <span
-                                        class="d-none d-sm-inline-block">| </span><br class="d-sm-none"/> 2022 &copy;
-                                </p>
-                            </div>
-
+                    <div class="card-footer bg-light d-flex justify-content-center">
+                        <div>
+                            <button class="btn btn-falcon-default btn-sm me-2" type="button" disabled="disabled"
+                                    data-bs-toggle="tooltip" data-bs-placement="top" title=""
+                                    data-bs-original-title="Prev" aria-label="Prev">
+                                <svg class="svg-inline--fa fa-chevron-left fa-w-10" aria-hidden="true"
+                                     focusable="false" data-prefix="fas" data-icon="chevron-left" role="img"
+                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
+                                    <path fill="currentColor"
+                                          d="M34.52 239.03L228.87 44.69c9.37-9.37 24.57-9.37 33.94 0l22.67 22.67c9.36 9.36 9.37 24.52.04 33.9L131.49 256l154.02 154.75c9.34 9.38 9.32 24.54-.04 33.9l-22.67 22.67c-9.37 9.37-24.57 9.37-33.94 0L34.52 272.97c-9.37-9.37-9.37-24.57 0-33.94z"></path>
+                                </svg>
+                                <!-- <span class="fas fa-chevron-left"></span> Font Awesome fontawesome.com -->
+                            </button>
+                            <a class="btn btn-sm btn-falcon-default text-primary me-2" href="#!">1</a><a
+                                class="btn btn-sm btn-falcon-default me-2" href="#!">2</a><a
+                                class="btn btn-sm btn-falcon-default me-2" href="#!">
+                            <svg class="svg-inline--fa fa-ellipsis-h fa-w-16" aria-hidden="true" focusable="false"
+                                 data-prefix="fas" data-icon="ellipsis-h" role="img"
+                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
+                                <path fill="currentColor"
+                                      d="M328 256c0 39.8-32.2 72-72 72s-72-32.2-72-72 32.2-72 72-72 72 32.2 72 72zm104-72c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72zm-352 0c-39.8 0-72 32.2-72 72s32.2 72 72 72 72-32.2 72-72-32.2-72-72-72z"></path>
+                            </svg>
+                        </a><a class="btn btn-sm btn-falcon-default me-2" href="#!">35</a>
+                            <button class="btn btn-falcon-default btn-sm" type="button" data-bs-toggle="tooltip"
+                                    data-bs-placement="top" title="" data-bs-original-title="Next">
+                                <svg class="svg-inline--fa fa-chevron-right fa-w-10" aria-hidden="true"
+                                     focusable="false" data-prefix="fas" data-icon="chevron-right" role="img"
+                                     xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
+                                    <path fill="currentColor"
+                                          d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
+                                </svg>
+                            </button>
                         </div>
-                    </footer>
+                    </div>
                 </div>
-                <div class="modal fade" id="authentication-modal" tabindex="-1" role="dialog"
-                     aria-labelledby="authentication-modal-label" aria-hidden="true">
-                    <div class="modal-dialog mt-6" role="document">
-                        <div class="modal-content border-0">
-                            <div class="modal-header px-5 position-relative modal-shape-header bg-shape">
-                                <div class="position-relative z-index-1 light">
-                                    <h4 class="mb-0 text-white" id="authentication-modal-label">Register</h4>
-                                    <p class="fs--1 mb-0 text-white">Please create your free Falcon account</p>
-                                </div>
-                                <button class="btn-close btn-close-white position-absolute top-0 end-0 mt-2 me-2"
-                                        data-bs-dismiss="modal" aria-label="Close"></button>
+
+                <footer class="footer">
+                    <div class="row g-0 justify-content-between fs--1 mt-4 mb-3">
+                        <div class="col-12 col-sm-auto text-center">
+                            <p class="mb-0 text-600">Разработка сайтов - Sayt.uz <span
+                                    class="d-none d-sm-inline-block">| </span><br class="d-sm-none"/> 2022 &copy;
+                            </p>
+                        </div>
+
+                    </div>
+                </footer>
+            </div>
+            <div class="modal fade" id="authentication-modal" tabindex="-1" role="dialog"
+                 aria-labelledby="authentication-modal-label" aria-hidden="true">
+                <div class="modal-dialog mt-6" role="document">
+                    <div class="modal-content border-0">
+                        <div class="modal-header px-5 position-relative modal-shape-header bg-shape">
+                            <div class="position-relative z-index-1 light">
+                                <h4 class="mb-0 text-white" id="authentication-modal-label">Register</h4>
+                                <p class="fs--1 mb-0 text-white">Please create your free Falcon account</p>
                             </div>
-                            <div class="modal-body py-4 px-5">
-                                <form>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="modal-auth-name">Name</label>
-                                        <input class="form-control" type="text" autocomplete="on" id="modal-auth-name"/>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="modal-auth-email">Email address</label>
-                                        <input class="form-control" type="email" autocomplete="on"
-                                               id="modal-auth-email"/>
-                                    </div>
-                                    <div class="row gx-2">
-                                        <div class="mb-3 col-sm-6">
-                                            <label class="form-label" for="modal-auth-password">Password</label>
-                                            <input class="form-control" type="password" autocomplete="on"
-                                                   id="modal-auth-password"/>
-                                        </div>
-                                        <div class="mb-3 col-sm-6">
-                                            <label class="form-label" for="modal-auth-confirm-password">Confirm
-                                                Password</label>
-                                            <input class="form-control" type="password" autocomplete="on"
-                                                   id="modal-auth-confirm-password"/>
-                                        </div>
-                                    </div>
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox"
-                                               id="modal-auth-register-checkbox"/>
-                                        <label class="form-label" for="modal-auth-register-checkbox">I accept the <a
-                                                href="#!">terms </a>and <a href="#!">privacy policy</a></label>
-                                    </div>
-                                    <div class="mb-3">
-                                        <button class="btn btn-primary d-block w-100 mt-3" type="submit" name="submit">
-                                            Register
-                                        </button>
-                                    </div>
-                                </form>
-                                <div class="position-relative mt-5">
-                                    <hr class="bg-300"/>
-                                    <div class="divider-content-center">or register with</div>
+                            <button class="btn-close btn-close-white position-absolute top-0 end-0 mt-2 me-2"
+                                    data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body py-4 px-5">
+                            <form>
+                                <div class="mb-3">
+                                    <label class="form-label" for="modal-auth-name">Name</label>
+                                    <input class="form-control" type="text" autocomplete="on" id="modal-auth-name"/>
                                 </div>
-                                <div class="row g-2 mt-2">
-                                    <div class="col-sm-6"><a class="btn btn-outline-google-plus btn-sm d-block w-100"
-                                                             href="#"><span class="fab fa-google-plus-g me-2"
-                                                                            data-fa-transform="grow-8"></span>
-                                        google</a></div>
-                                    <div class="col-sm-6"><a class="btn btn-outline-facebook btn-sm d-block w-100"
-                                                             href="#"><span class="fab fa-facebook-square me-2"
-                                                                            data-fa-transform="grow-8"></span> facebook</a>
+                                <div class="mb-3">
+                                    <label class="form-label" for="modal-auth-email">Email address</label>
+                                    <input class="form-control" type="email" autocomplete="on"
+                                           id="modal-auth-email"/>
+                                </div>
+                                <div class="row gx-2">
+                                    <div class="mb-3 col-sm-6">
+                                        <label class="form-label" for="modal-auth-password">Password</label>
+                                        <input class="form-control" type="password" autocomplete="on"
+                                               id="modal-auth-password"/>
                                     </div>
+                                    <div class="mb-3 col-sm-6">
+                                        <label class="form-label" for="modal-auth-confirm-password">Confirm
+                                            Password</label>
+                                        <input class="form-control" type="password" autocomplete="on"
+                                               id="modal-auth-confirm-password"/>
+                                    </div>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox"
+                                           id="modal-auth-register-checkbox"/>
+                                    <label class="form-label" for="modal-auth-register-checkbox">I accept the <a
+                                            href="#!">terms </a>and <a href="#!">privacy policy</a></label>
+                                </div>
+                                <div class="mb-3">
+                                    <button class="btn btn-primary d-block w-100 mt-3" type="submit" name="submit">
+                                        Register
+                                    </button>
+                                </div>
+                            </form>
+                            <div class="position-relative mt-5">
+                                <hr class="bg-300"/>
+                                <div class="divider-content-center">or register with</div>
+                            </div>
+                            <div class="row g-2 mt-2">
+                                <div class="col-sm-6"><a class="btn btn-outline-google-plus btn-sm d-block w-100"
+                                                         href="#"><span class="fab fa-google-plus-g me-2"
+                                                                        data-fa-transform="grow-8"></span>
+                                    google</a></div>
+                                <div class="col-sm-6"><a class="btn btn-outline-facebook btn-sm d-block w-100"
+                                                         href="#"><span class="fab fa-facebook-square me-2"
+                                                                        data-fa-transform="grow-8"></span> facebook</a>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </main>
     <!-- ===============================================-->
     <!--    End of Main Content-->
