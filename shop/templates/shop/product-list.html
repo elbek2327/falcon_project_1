@@ -111,7 +111,7 @@
                             </div>
                         </a>
                             <ul class="nav collapse false" id="dashboard">
-                                <li class="nav-item"><a class="nav-link" href="../../../index.html"
+                                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"
                                                         aria-expanded="false">
                                     <div class="d-flex align-items-center"><span
                                             class="nav-link-text ps-1">Default</span>
@@ -2388,7 +2388,7 @@
                                                     class="ms-1">Rating: {{ product.rating }}</span>
                                             </div>
                                             <div class="d-none d-lg-block">
-                                                <p class="fs--1 mb-1">Shipping Cost: <strong>$65</strong></p>
+
                                                 <p class="fs--1 mb-1">Stock: <strong
                                                         class="text-success">{{ product.quantity }}</strong>
                                                 </p>

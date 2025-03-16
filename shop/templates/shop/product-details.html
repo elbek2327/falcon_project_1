@@ -111,7 +111,7 @@
                             </div>
                         </a>
                             <ul class="nav collapse false" id="dashboard">
-                                <li class="nav-item"><a class="nav-link" href="../../../index.html"
+                                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"
                                                         aria-expanded="false">
                                     <div class="d-flex align-items-center"><span
                                             class="nav-link-text ps-1">Default</span>
@@ -2316,8 +2316,8 @@
                     <div class="row">
                         <div class="col-lg-6 mb-4 mb-lg-0">
                             <div class="product-slider" id="galleryTop">
-                                <div class="col-sm-5 col-md-4" style="width: 50%; height: 50%;">
-                                    <div class="modal-dialog-centered">
+                                <div class="col-sm-5 col-md-4" style="width: 100%; height: 100%;">
+                                    <div class="modal-dialog-centered" >
                                         <a class="d-block h-100"
                                            href="{% url 'product_images' product_id=product.id %}">
                                             {% if product.images.first %}
@@ -2340,7 +2340,7 @@
                         </div>
                         <div class="col-lg-6">
                             <h5>{{ product.name }}</h5>
-                            <a class="fs--1 mb-2 d-block" href="#!">{{ product.category }}</a>
+                            <a class="fs--1 mb-2 d-block" href="#">{{ product.category }}</a>
                             <div class="fs--2 mb-3 d-inline-block text-decoration-none">
                     <span class="ms-1 text-600">
                         <b>
@@ -2349,10 +2349,10 @@
                     </span>
                             </div>
                             <p class="fs--1">{{ product.description }}</p>
-                            <h4 class="d-flex align-items-center">
-                                <span class="text-warning me-2">{{ product.discounted_price|format_price }}</span>so'm
+                            <h4 class="d-flex align-items-center" style="width: 100%">
+                                <span class="text-warning me-2">{{ product.discounted_price|format_price }} so'm</span>
                                 <span class="me-1 fs--1 text-500">
-                        <del class="me-1">{{ product.price|format_price }}</del>
+                        <del class="me-1"><br>{{ product.price|format_price }}</del>
                         <strong></strong>
                     </span>
                             </h4>
