@@ -2,6 +2,7 @@
 
 from django.db import models
 from decimal import Decimal
+from phonenumber_field.modelfields import PhoneNumber, PhoneNumberField
 
 # Create your models here.
 
@@ -11,6 +12,9 @@ class Category(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name_plural = "Categories"
 
 
 
@@ -32,9 +36,31 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name_plural = 'Products'
+
+
 class Images(models.Model):
     image = models.ImageField(upload_to='product/images/')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='images', null=True, blank=True)
 
     def __str__(self):
         return f"{self.product.name} {self.image.url}"
+
+    class Meta:
+        verbose_name_plural = 'Images'
+
+
+class Customers(models.Model):
+    name = models.CharField(max_length=155, blank=True, null=True)
+    email = models.EmailField()
+    phone_number = PhoneNumberField(region='UZ')
+    address = models.TextField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    image = models.ImageField(upload_to='customer/images/', null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
+
+    def __str__(self):
+        return f" Name - {self.name} email - {self.email}"
+    class Meta:
+        verbose_name_plural = 'Customers'

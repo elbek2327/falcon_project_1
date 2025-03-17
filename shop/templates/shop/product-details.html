@@ -43,6 +43,46 @@
     <link href="{% static 'shop/assets/css/theme.min.css' %}" rel="stylesheet" id="style-default">
     <link href="{% static 'shop/assets/css/user-rtl.min.css' %}" rel="stylesheet" id="user-style-rtl">
     <link href="{% static 'shop/assets/css/user.min.css' %}" rel="stylesheet" id="user-style-default">
+    <style>
+        .image-container {
+            position: relative;
+            width: 300px; /* Adjust as needed */
+            height: 300px; /* Adjust as needed */
+            overflow: hidden;
+        }
+
+        .image-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+
+        .image-container img.active {
+            display: block;
+        }
+
+        .image-container button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: #f0f0f0;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+        }
+
+        .image-container button.prev {
+            left: 10px;
+        }
+
+        .image-container button.next {
+            right: 10px;
+        }
+    </style>
     <script>
         var isRTL = JSON.parse(localStorage.getItem('isRTL'));
         if (isRTL) {
@@ -317,7 +357,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="../../../app/e-commerce/customers.html"
+                                <li class="nav-item"><a class="nav-link" href="{% url 'e_customers' %}"
                                                         aria-expanded="false">
                                     <div class="d-flex align-items-center"><span
                                             class="nav-link-text ps-1">Customers</span>
@@ -2316,21 +2356,26 @@
                     <div class="row">
 
                         <div class="col-lg-6 mb-4 mb-lg-0">
-                            <div class="product-slider" id="galleryTop">
-                                <div class="col-sm-5 col-md-4" style="width: 100%; height: 100%;">
-                                    <div class="modal-dialog-centered" >
-                                        <a class="d-block h-100"
-                                           >
-                                            {% if product.images.first %}
-                                                <img class="img-fluid fit-cover w-sm-100 h-sm-100 rounded-1 absolute-sm-centered"
-                                                     src="{{ product.images.first.image.url }}"
-                                                     alt="{{ product.name }}"/>
-                                            {% else %}
-                                                <img class="img-fluid fit-cover w-sm-100 h-sm-100 rounded-1 absolute-sm-centered"
-                                                     src="{% static 'shop/assets/img/products/3.jpg' %}"
-                                                     alt="No Image"/>
-                                            {% endif %}
-                                        </a>
+                            <div>
+
+
+                                <div style="display: flex; justify-content: center; align-items: center; min-height: 400px;">
+                                    <div style="position: relative; text-align: center;">
+                                        {% for image in product.images.all %}
+                                            <img src="{{ image.image.url }}" alt="{{ product.name }}"
+                                                 style="max-width: 80%; max-height: 350px; display: {% if forloop.first %}block{% else %}none{% endif %};"
+                                                 class="product-image">
+                                        {% empty %}
+                                            <img src="{% static 'shop/assets/img/products/3.jpg' %}"
+                                                 alt="No Image" style="max-width: 80%; max-height: 350px;"
+                                                 class="product-image">
+                                        {% endfor %}
+                                        <button style="position: absolute; top: 50%; left: 10px; transform: translateY(-50%); background: rgba(0, 0, 0, 0.5); color: white; border: none; padding: 10px; cursor: pointer;"
+                                                onclick="prevImage()">Previous
+                                        </button>
+                                        <button style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); background: rgba(0, 0, 0, 0.5); color: white; border: none; padding: 10px; cursor: pointer;"
+                                                onclick="nextImage()">Next
+                                        </button>
                                     </div>
                                 </div>
                                 <div class="swiper-nav">
@@ -2341,7 +2386,7 @@
                         </div>
                         <div class="col-lg-6">
                             <h5>{{ product.name }}</h5>
-                            <a class="fs--1 mb-2 d-block" href="#">{{ product.category }}</a>
+                            <a class="fs--1 mb-2 d-block" href="{% url 'product_of_category' product.category.id %}">{{ product.category }}</a>
                             <div class="fs--2 mb-3 d-inline-block text-decoration-none">
                     <span class="ms-1 text-600">
                         <b>
@@ -2351,9 +2396,9 @@
                             </div>
                             <p class="fs--1">{{ product.description }}</p>
                             <h4 class="d-flex align-items-center" style="width: 100%">
-                                <span class="text-warning me-2">{{ product.discounted_price }} so'm</span>
+                                <span class="text-warning me-2"><br><br>{{ product.discounted_price|format_price }} so'm</span>
                                 <span class="me-1 fs--1 text-500">
-                        <del class="me-1"><br>{{ product.price }}</del>
+                                <del class="me-1">{{ product.price|format_price }}</del>so'm
                         <strong></strong>
                     </span>
                             </h4>
@@ -2385,6 +2430,13 @@
                                     <a class="btn btn-sm btn-primary" href="#!">
                                         <span class="fas fa-cart-plus me-sm-2"></span>
                                         <span class="d-none d-sm-inline-block">Add To Cart</span>
+                                    </a>
+                                </div>
+                                <div class="col-auto px-2 px-md-3">
+                                    <a class="btn btn-sm btn-primary" style="background-color: forestgreen"
+                                       href="{% url 'product_list' product.category.id %}">
+                                        <span class="fas fa-cart-plus me-sm-2"></span>
+                                        <span class="d-none d-sm-inline-block">Back</span>
                                     </a>
                                 </div>
                                 <div class="col-auto px-0">
@@ -2759,6 +2811,31 @@
 <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
 <script src="{% static 'shop/vendors/list.js/list.min.js' %}"></script>
 <script src="{% static 'shop/assets/js/theme.js' %}"></script>
+<script>
+    function prevImage() {
+        const images = document.querySelectorAll('.product-image');
+        const activeImage = document.querySelector('.product-image[style*="display: block"]');
+        let currentIndex = Array.from(images).indexOf(activeImage);
+
+        images[currentIndex].style.display = 'none';
+        if (currentIndex === 0) {
+            currentIndex = images.length - 1;
+        } else {
+            currentIndex--;
+        }
+        images[currentIndex].style.display = 'block';
+    }
+
+    function nextImage() {
+        const images = document.querySelectorAll('.product-image');
+        const activeImage = document.querySelector('.product-image[style*="display: block"]');
+        let currentIndex = Array.from(images).indexOf(activeImage);
+
+        images[currentIndex].style.display = 'none';
+        currentIndex = (currentIndex + 1) % images.length;
+        images[currentIndex].style.display = 'block';
+    }
+</script>
 
 </body>
 
