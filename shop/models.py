@@ -30,7 +30,8 @@ class Product(models.Model):
     @property
     def discounted_price(self):
         if self.discount > 0:
-            self.price = self.price * Decimal(1 - self.discount / 100)
+            self.discount_price = self.price * Decimal(1 - self.discount / 100)
+            return Decimal(f"{self.discount_price}").quantize(Decimal("0.00"))
         return Decimal(f'{self.price}').quantize(Decimal('0.00'))
 
     def __str__(self):

@@ -3,20 +3,34 @@ from django.urls import path
 from shop import views
 from django.conf import settings
 from django.conf.urls.static import static
+from shop.views import IndexView, ProductDetailView
+from .views import (
+    IndexView,
+    ProductDetailView,
+    ProductListView,
+    ProductImagesView,
+    ECustomersView,
+    CustomerCreateView,
+    CustomersDetailView,
+    CustomerUpdateView,
+    CustomerDeleteView,
+)
+
 
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('product/details/<int:product_id>', views.product_details, name='product_details'),
-    path('product/details/html/', views.product_details_html, name='product_details_html'),
-    path('products-of-category/<int:category_id>/', views.product_list, name='product_list'),
-    path('product/list/html/', views.product_list_html, name='product_list_html'),
-    path('products-of-category/<int:category_id>/', views.index, name='product_of_category'),
-    path('product/images/<int:product_id>/', views.product_images, name='product_images'),
-    path('e_customers/',views.e_customers_view, name='e_customers'),
-    path('customer_add/', views.customers_add, name='customers_add'),
-    path('customer_details/<int:customer_id>/', views.customer_details_view, name='customer_details'),
-    path('customer_update/<int:customer_id>', views.customer_update, name='customer_update'),
-    path('customer_delete/<int:customer_id>/', views.customer_delete, name='customer_delete'),
+    path('', IndexView.as_view(), name='index'),
+    path('product/details/<int:pk>', ProductDetailView.as_view(), name='product_details'),
+    path('product/details/html/',   views.product_details_html, name='product_details_html'),
+    path('product/details/<int:pk>/', ProductDetailView.as_view(), name='product_details'),
+    path('products-of-category/<int:category_id>/', ProductListView.as_view(), name='product_list'),
+    path('products-of-category/<int:category_id>/', ProductListView.as_view(), name='product_of_category'),
+    path('product/images/<int:pk>/', ProductImagesView.as_view(), name='product_images'),
+    path('e_customers/', ECustomersView.as_view(), name='e_customers'),
+    path('customer_add/', CustomerCreateView.as_view(), name='customers_add'),
+    path('customer_details/<int:pk>/', CustomersDetailView.as_view(), name='customer_details'),
+    path('customer_update/<int:pk>/', CustomerUpdateView.as_view(), name='customer_update'),
+    path('customer_delete/<int:pk>/', CustomerDeleteView.as_view(), name='customer_delete'),
+    path('product_list/', views.product_list_html, name='product_list_html'),
 
 
 
