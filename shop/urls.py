@@ -1,10 +1,10 @@
-
+app_name = 'shop'
 from django.urls import path
 from shop import views
 from django.conf import settings
 from django.conf.urls.static import static
 from shop.views import IndexView, ProductDetailView
-from .views import (
+from shop.views import (
     IndexView,
     ProductDetailView,
     ProductListView,
@@ -31,6 +31,8 @@ urlpatterns = [
     path('customer_update/<int:pk>/', CustomerUpdateView.as_view(), name='customer_update'),
     path('customer_delete/<int:pk>/', CustomerDeleteView.as_view(), name='customer_delete'),
     path('product_list/', views.product_list_html, name='product_list_html'),
+
+
 
 
 

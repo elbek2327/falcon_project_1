@@ -177,7 +177,14 @@
                     </div>
                 </li>
             </ul>
+
+
             <ul class="navbar-nav navbar-nav-icons ms-auto flex-row align-items-center">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'users:login_page' %}">
+                        <span class="fas fa-sign-in-alt"></span> Kirish
+                    </a>
+                </li>
                 <li class="nav-item">
                     <div class="theme-control-toggle fa-icon-wait px-2">
                         <input class="form-check-input ms-0 theme-control-toggle-input" id="themeControlToggle"
@@ -212,7 +219,7 @@
 
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" href="pages/user/settings.html">Sozlamalar</a>
-                            <a class="dropdown-item" href="pages/authentication/card/logout.html">Chiqish</a>
+                            <a class="dropdown-item" href="#">Chiqish</a>
                         </div>
                     </div>
                 </li>
@@ -236,14 +243,14 @@
                     {% for category in categories %}
                         <div class="col-4 col-md-4 col-lg-3 col-xx1-2 mb-1">
                             <div class="bg-white dark__bg-1100 p-1 h-100">
-                                <a href="{% url 'product_of_category' category.id %}">
+                                <a href="{% url 'shop:product_of_category' category.id %}">
                                     <img src="{{ category.image.url }}" style="width: 80px;height: 80px"
                                          alt="{{ category.title }}">
                                 </a>
                                 <h6 class="mb-1">
-                                    <h6 href="{% url 'product_list' category_id=category.id %}">
+                                    <h6 href="{% url 'shop:product_list' category_id=category.id %}">
 
-                                        <a href="{% url 'product_list' category_id=category.id %}">{{ category.title }}</a>
+                                        <a href="{% url 'shop:product_list' category_id=category.id %}">{{ category.title }}</a>
 
 
                                     </h6>
@@ -277,7 +284,7 @@
                                         <div class="p-2">
                                             <h5 class="fs-0">
                                                 <a class="text-dark"
-                                                   href="{% url 'product_details' pk=product.id %}">
+                                                   href="{% url 'shop:product_details' pk=product.id %}">
                                                     {{ product.name }}
                                                 </a>
                                             </h5>

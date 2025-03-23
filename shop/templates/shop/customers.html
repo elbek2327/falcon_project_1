@@ -355,7 +355,7 @@
                             </div>
                         </div>
                         <div id="table-customers-replace-element">
-                            <a href="{% url 'customers_add' %}">
+                            <a href="{% url 'shop:customers_add' %}">
                             <button class="btn btn-falcon-default btn-sm" type="button">
                                 <span class="fas fa-plus"
                                       data-fa-transform="shrink-3 down-2"></span>
@@ -422,7 +422,7 @@
 
                                         {#                              Name field#}
                                         <div class="flex-1">
-                                            <h5 class="mb-0 fs--1"><a href="{% url 'customer_details' customer.id %}">{{ customer.name }}</a></h5>
+                                            <h5 class="mb-0 fs--1"><a href="{% url 'shop:customer_details' customer.id %}">{{ customer.name }}</a></h5>
                                         </div>
                                     </div>
                                 </a></td>
@@ -449,7 +449,7 @@
 
                                             {#                              Edit and delete buttons#}
                                             <div class="bg-white py-2">
-                                                <a class="dropdown-item" href="{% url 'customer_update' customer.id %}">Edit</a>
+                                                <a class="dropdown-item" href="{% url 'shop:customer_update' customer.id %}">Edit</a>
                                                 <button type="button" class="dropdown-item text-danger"
                                                         data-bs-toggle="modal"
                                                         data-bs-target="#deleteCustomerModal{{ customer.id }}">Delete
@@ -469,7 +469,7 @@
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                         </div>
-                                        <form method="post" action="{% url 'customer_delete' customer.id %}">
+                                        <form method="post" action="{% url 'shop:customer_delete' customer.id %}">
                                             {% csrf_token %}
                                             <div class="modal-body">
                                                 Are you sure you want to delete <strong>{{ customer.name }}</strong>?

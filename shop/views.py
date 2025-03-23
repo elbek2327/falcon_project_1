@@ -104,3 +104,4 @@ class CustomerDeleteView(DeleteView):
     model = Customers
     template_name = 'shop/customers.html'
     success_url = reverse_lazy('e_customers')
+

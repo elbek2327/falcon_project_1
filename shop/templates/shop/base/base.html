@@ -106,7 +106,7 @@
                                 </div>
                             </a>
                                 <ul class="nav collapse show" id="dashboard">
-                                    <li class="nav-item"><a class="nav-link active" href="{% url 'index' %}"
+                                    <li class="nav-item"><a class="nav-link active" href="{% url 'shop:index' %}"
                                                             aria-expanded="false">
                                         <div class="d-flex align-items-center"><span
                                                 class="nav-link-text ps-1">Default</span>
@@ -254,7 +254,7 @@
                                         <!-- more inner pages-->
                                         <ul class="nav collapse false" id="product">
                                             <li class="nav-item"><a class="nav-link"
-                                                                    href="{% url 'product_list_html' %}"
+                                                                    href="{% url 'shop:product_list_html' %}"
                                                                     aria-expanded="false">
                                                 <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Product list</span>
                                                 </div>
@@ -270,7 +270,7 @@
                                                 <!-- more inner pages-->
                                             </li>
                                             <li class="nav-item"><a class="nav-link"
-                                                                    href="{% url 'product_details_html' %}"
+                                                                    href="{% url 'shop:product_details_html' %}"
                                                                     aria-expanded="false">
                                                 <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Product details</span>
                                                 </div>
@@ -306,7 +306,7 @@
                                             </li>
                                         </ul>
                                     </li>
-                                    <li class="nav-item"><a class="nav-link" href="{% url 'e_customers' %}"
+                                    <li class="nav-item"><a class="nav-link" href="{% url 'shop:e_customers' %}"
                                                             aria-expanded="false">
                                         <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Customers</span>
                                         </div>

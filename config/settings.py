@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'shop.apps.ShopConfig',
+    'users.apps.UsersConfig',
     'import_export',
     'phonenumber_field',
 ]
@@ -89,6 +90,8 @@ DATABASES = {
         'PORT': os.getenv("DB_PORT"),
     }
 }
+
+AUTH_USER_MODEL = 'users.CustomUser'
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -156,3 +159,10 @@ JAZZMIN_SETTINGS = {
     "search_model": ["auth.User"],
     "show_ui_builder": True,
 }
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'zubaydullayev1609@gmail.com'
+EMAIL_HOST_PASSWORD = 'hxyx wvih mqeb ckfs'

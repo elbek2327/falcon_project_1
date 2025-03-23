@@ -111,7 +111,7 @@
                             </div>
                         </a>
                             <ul class="nav collapse false" id="dashboard">
-                                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"
+                                <li class="nav-item"><a class="nav-link" href="{% url 'shop:index' %}"
                                                         aria-expanded="false">
                                     <div class="d-flex align-items-center"><span
                                             class="nav-link-text ps-1">Default</span>
@@ -134,7 +134,7 @@
                                 </a>
                                     <!-- more inner pages-->
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="{% url 'index' %}"
+                                <li class="nav-item"><a class="nav-link" href="{% url 'shop:index' %}"
                                                         aria-expanded="false">
                                     <div class="d-flex align-items-center"><span
                                             class="nav-link-text ps-1">E commerce</span>
@@ -266,7 +266,7 @@
                                     <!-- more inner pages-->
                                     <ul class="nav collapse show" id="product">
                                         <li class="nav-item"><a class="nav-link active"
-                                                                href="{% url 'product_list_html' %}"
+                                                                href="{% url 'shop:product_list_html' %}"
                                                                 aria-expanded="false">
                                             <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Product list</span>
                                             </div>
@@ -282,7 +282,7 @@
                                             <!-- more inner pages-->
                                         </li>
                                         <li class="nav-item"><a class="nav-link"
-                                                                href="{% url 'product_details_html' %}"
+                                                                href="{% url 'shop:product_details_html' %}"
                                                                 aria-expanded="false">
                                             <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Product details</span>
                                             </div>
@@ -318,7 +318,7 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li class="nav-item"><a class="nav-link" href="{% url 'e_customers' %}"
+                                <li class="nav-item"><a class="nav-link" href="{% url 'shop:e_customers' %}"
                                                         aria-expanded="false">
                                     <div class="d-flex align-items-center"><span
                                             class="nav-link-text ps-1">Customers</span>
@@ -2347,7 +2347,7 @@
                             <!--Images-->
                             <div class="col-sm-5 col-md-4">
                                 <div class="modal-dialog-centered">
-                                    <a class="d-block h-100" href="{% url 'product_images' pk=product.id %}">
+                                    <a class="d-block h-100" href="{% url 'shop:product_images' pk=product.id %}">
                                         {% if product.images.first %}
                                             <img class="img-fluid fit-cover w-sm-100 h-sm-100 rounded-1 absolute-sm-centered"
                                                  src="{{ product.images.first.image.url }}" alt="{{ product.name }}"/>
@@ -2362,7 +2362,7 @@
                                 <div class="row">
                                     <div class="col-lg-8">
                                         <h5 class="mt-3 mt-sm-0"><a class="text-dark fs-0 fs-lg-1"
-                                                                    href="{% url 'product_details' pk=product.id %}">{{ product.name }}</a>
+                                                                    href="{% url 'shop:product_details' pk=product.id %}">{{ product.name }}</a>
                                         </h5>
                                         <!--category-->
                                         <p class="fs--1 mb-2 mb-md-3"><a class="text-500"
@@ -2406,7 +2406,7 @@
                                                 <span
                                                         class="ms-2 d-none d-md-inline-block">Add to Cart</span></a>
                                             <a
-                                                    class="btn btn-sm btn-primary d-lg-block mt-lg-2" style="background-color: forestgreen" href="{% url 'index' %}">
+                                                    class="btn btn-sm btn-primary d-lg-block mt-lg-2" style="background-color: forestgreen" href="{% url 'shop:index' %}">
                                             <span
                                                     class="fas fa-cart-plus"> </span>
                                                 <span
