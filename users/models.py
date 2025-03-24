@@ -45,6 +45,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(_('email address'), unique=True)
     phone_number = PhoneNumberField(region='UZ')
     first_name = models.CharField(max_length=50)  # Name field
+    image = models.ImageField( null=True, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

@@ -35,6 +35,11 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'jazzmin',
     'django.contrib.admin',
+    'django.contrib.sites',  # Required by allauth
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -54,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -74,7 +80,7 @@ TEMPLATES = [
         },
     },
 ]
-
+SITE_ID = 1
 WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
@@ -111,12 +117,46 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',# Keep this if you want the default backend
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'SCOPE': ['user'],
+        'AUTH_PARAMS': {'access_type': 'online'},
+    }
+}
+
+SOCIALACCOUNT_QUERY_EMAIL = True
+SOCIALACCOUNT_AUTO_SIGNUP = True
+SOCIALACCOUNT_EMAIL_REQUIRED = True
+SOCIALACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_USER_MODEL_USERNAME_FIELD = None
+
+LOGIN_REDIRECT_URL = "shop:index"
+LOGOUT_REDIRECT_URL = "shop:index"
+
+SOCIALACCOUNT_PROVIDERS['github']['APP'] = {
+    'client_id': os.getenv("GITHUB_CLIENT_ID"),
+    'secret': os.getenv("GITHUB_CLIENT_SECRET"),
+    'key': '',
+}
+
+
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tashkent'
 
 USE_I18N = True
 
